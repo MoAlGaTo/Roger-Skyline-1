@@ -174,8 +174,6 @@ COMMIT
 
 ### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM
 
-[Mettre en place une protection contre les DOS (Denial Of ServiceAttack)]
-
 [Fail2ban] : Fail2ban est un framework de prévention contre les intrusions, Fail2ban bloque les adresses IP appartenant à des hôtes qui tentent de casser la sécurité du système, pendant une période configurable (mise en quarantaine).
 
 * Installer fail2ban -> `sudo apt-get install fail2ban`
@@ -216,3 +214,84 @@ logpath  = %(apache_error_log)s
 <br/><br/><br/>
 
 ### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM
+
+[Scan : permet de trouver dans un délai très court, tous les ports ouverts sur une machine distante.]
+
+[PSAD : Port Scan Attack Detector]
+
+* Installer PSAD -> `sudo apt-get install psad`
+
+* Ajouter au fichier IPtables ces deux lignes ->
+````````````````````````
+-A INPUT -j LOG
+-A FORWARD -j LOG
+````````````````````````
+(Active la journalisation sur les chaînes d'entrée et de transfert d'IPtables afin que le démon PSAD puisse détecter toute activité anormale.)
+
+* Ouvrir le fichier de configuration
+principal du /etc/psad/psad.conf -> `sudo vim /etc/psad/psad.conf`
+
+* Modifier les lignes suivantes ->
+````````````````````````
+EMAIL_ADDRESSES		root@localhost;
+HOSTNAME		localhost;
+````````````````````````
+
+* Modifier ceci pour pointer vers le fichier syslog, où psad aura réellement la possibilité de parcourir les journaux actifs ->
+````````````````````````
+ENABLE_SYSLOG_FILE	Y;
+IPT_WRITE_FWDATA	Y;
+IPT_SYSLOG_FILE		/var/log/syslog;
+````````````````````````
+
+* Activer les paramètres suivants pour activer la fonction IPS et le niveau de danger. <br/>Après avoir activé le paramètre dans le fichier de configuration, le démon PSAD bloquera automatiquement l'attaquant en ajoutant son adresse IP dans les chaînes IPtables.
+````````````````````````
+ENABLE_AUTO_IDS		Y;
+AUTO_IDS_DANGER_LEVEL	1;
+````````````````````````
+
+* Exécuter maintenant la commande suivante pour mettre à jour la base de données 
+de signatures pour la détection des attaques ->	`psad --sig-update`
+
+* Redemarrer le service -> `sudo psad -R` (restart)
+
+* Afficher l'etat de tous les proccessus en cours -> `sudo psad -S` (status)
+<br/><br/><br/>
+
+### 6) Arretez les services non nécessaire pour ce projet
+
+* Lister les services disponibles et répertorie <br/>l'état des services contrôlés par le systeme -> `sudo systemctl list-units --type=service --state=active`
+
+IMAGE
+
+* Stopper un service -> `sudo systemctl disable $nameofservice`
+
+Désactiver les services estimé non necéssaires ->
+
+* console-setup.service : Ce paquet fournit à la console le même modèle
+de configuration du clavier que celui du système X Window.
+
+* keyboard-setup.service : configuration du clavier.
+
+* exim4 : Mail Transfert Agent (postfix est utilisé à la place).
+<br/><br/><br/>
+
+### 7) Réalisez un script qui met à jour l’ensemble des sources de package, puis de vos packages et qui log l’ensemble dans un fichier nommé /var/log/update_script.log. Créez une tache planifiée pour ce script une fois par semaine à 4h00 du matin età chaque reboot de la machine
+
+[Cron] : est un programme qui permet aux utilisateurs des systèmes Unix
+d’exécuter automatiquement des scripts, des commandes ou des logiciels à une
+date et une heure spécifiée à l’avance.
+
+* Créer un fichier dans on ecrit le script de mise a jour des packages -> `sudo touch update_packages`
+* Ecriture du scipt :
+
+*Ouvrir le fichier crontab ->		sudo crontab -e
+
+*Y ajouter les lignes suivantes :
+
+0 4 * * 1 apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.log 2>&1)
+
+@reboot apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.log2>&1)
+
+(Pour tester la commande sur le terminal il faut ajouter les droits d'écriture
+pour les non-root au fichier update_script.log).
