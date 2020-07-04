@@ -281,6 +281,7 @@ de configuration du clavier que celui du système X Window.
 d’exécuter automatiquement des scripts, des commandes ou des logiciels à une
 date et une heure spécifiée à l’avance.
 
+* Créer le fichier /var/log/update_script.log -> `sudo touch /var/log/update_script.log`
 * Créer un fichier dans /etc/cron.d -> `sudo touch update_packages`
 * Donner les droits d'execution au root -> `chmod 744 update_packages`
 * Ouvrir le fichier avec vim -> `sudo vim update_packages` puis ecrire ce script :
