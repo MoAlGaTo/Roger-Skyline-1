@@ -176,10 +176,10 @@ COMMIT
 
 * Installer fail2ban -> `sudo apt-get install fail2ban`
 
-* Copier le fichier jail.conf -> `sudo cp jail.conf jail.local (dans /etc/fail2ban/)`
+* Copier le fichier jail.conf -> `sudo cp jail.conf jail.local` (dans /etc/fail2ban/)
 (le fichier jail.conf sera modifier à chaque mis à jour, donc pour un fichier fixe, en créer un autre (jail.local)).
 
-* Y ajouter/modifier ces lignes:
+* Ouvrir le fichier `sudo vim /etc/fail2ban/jail.local` et y ajouter/modifier ces lignes:
 ```````````````````````````````````````````````````````````````````````````````````````````````
 # "bantime" is the number of seconds that a host is banned.
 bantime  = 10m
