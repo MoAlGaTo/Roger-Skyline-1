@@ -96,7 +96,7 @@ interdire l'utilisateur root de se connecter en SSH
 * Ouvrir le fichier sshd_config -> `sudo vim /etc/ssh/sshd_config`
 * PasswordAuthentication yes ->
 ``````````````````````````
-PasswordAuthentication no (aprés établissement de la connexion afin d'empecher toutes nouvelles connexions)
+PasswordAuthentication no #aprés établissement de la connexion afin d'empecher toutes nouvelles connexions
 ``````````````````````````
 * PubkeyAuthentication yes->
 ``````````````````````````
