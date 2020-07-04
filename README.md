@@ -1,6 +1,7 @@
 # Roger-Skyline-1
 
 Roger-Skyline-1 est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
+***
 <br/><br/><br/><br/>
 
 
@@ -177,7 +178,7 @@ COMMIT
 
 * Installer fail2ban -> `sudo apt-get install fail2ban`
 
-* Copier le fichier jail.conf -> `sudo cp jail.conf jail.local` (dans /etc/fail2ban/)
+* Copier le fichier jail.conf -> `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`
 (le fichier jail.conf sera modifier à chaque mis à jour, donc pour un fichier fixe, en créer un autre (jail.local)).
 
 * Ouvrir le fichier `sudo vim /etc/fail2ban/jail.local` et y ajouter/modifier ces lignes:
@@ -220,7 +221,7 @@ logpath  = %(apache_error_log)s
 
 * Installer PSAD -> `sudo apt-get install psad`
 
-* Ajouter au fichier IPtables ces deux lignes ->
+* Ajouter au fichier IPtables ces deux lignes `sudo vim /etc/iptables/rules.v4` ->
 ````````````````````````
 -A INPUT -j LOG
 -A FORWARD -j LOG
@@ -282,9 +283,9 @@ d’exécuter automatiquement des scripts, des commandes ou des logiciels à une
 date et une heure spécifiée à l’avance.
 
 * Créer le fichier /var/log/update_script.log -> `sudo touch /var/log/update_script.log`
-* Créer un fichier dans /etc/cron.d -> `sudo touch update_packages`
-* Donner les droits d'execution au root -> `chmod 744 update_packages`
-* Ouvrir le fichier avec vim -> `sudo vim update_packages` puis ecrire ce script :
+* Créer un fichier dans /etc/cron.d -> `sudo touch /etc/cron.d/update_packages`
+* Donner les droits d'execution au root -> `sudo chmod 744 /etc/cron.d/update_packages`
+* Ouvrir le fichier avec vim -> `sudo vim /etc/cron.d/update_packages` puis ecrire ce script :
 
 ``````````````````````````````
 #!/bin/bash
@@ -303,10 +304,10 @@ apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.
 
 ### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit
 
-* Créer un fichier dans /etc/cron.d dans lequel on stocke ce que renvoie la commande md5sum -> `sudo touch cron_old_hash`
-* Créer un fichier dans /etc/cron.d dans lequel on ecrira le script -> `sudo touch cron_file_control`
-* Donner les droits d'execution au root -> `chmod 744 cron_file_control`
-* Ouvrir le fichier avec vim -> `sudo vim cron_file_control` puis ecrire ce script :
+* Créer un fichier dans /etc/cron.d dans lequel on stocke ce que renvoie la commande md5sum -> `sudo /etc/cron.d/touch cron_old_hash`
+* Créer un fichier dans /etc/cron.d dans lequel on ecrira le script -> `sudo touch /etc/cron.d/cron_file_control`
+* Donner les droits d'execution au root -> `chmod 744 /etc/cron.d/cron_file_control`
+* Ouvrir le fichier avec vim -> `sudo vim /etc/cron.d/cron_file_control` puis ecrire ce script :
 
 ``````````````````````````````
 #!/bin/bash
