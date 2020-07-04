@@ -77,8 +77,6 @@ Par<br/>
 
 * [SSH](Secure SHell) : est à la fois un programme informatique et un protocole de communication sécurisé.
 
-[Changer le port par defaut du service SSH et interdire l'utilisateur root de se connecter en SSH]:
-
 * Ouvrir le fichier /etc/network/sshd_config -> `sudo vim /etc/ssh/sshd_config`
 * Changer le port par défaut SSH (22):
 Port 22 -> Port 1992 (par exemple)
@@ -282,16 +280,49 @@ de configuration du clavier que celui du système X Window.
 d’exécuter automatiquement des scripts, des commandes ou des logiciels à une
 date et une heure spécifiée à l’avance.
 
-* Créer un fichier dans on ecrit le script de mise a jour des packages -> `sudo touch update_packages`
-* Ecriture du scipt :
+* Créer un fichier dans /etc/cron.d -> `sudo touch update_packages`
+* Donner les droits d'execution au root -> `chmod 744 update_packages`
+* Ouvrir le fichier avec vim -> `sudo vim update_packages` puis ecrire ce script :
 
-*Ouvrir le fichier crontab ->		sudo crontab -e
+``````````````````````````````
+#!/bin/bash
 
-*Y ajouter les lignes suivantes :
+apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.log 2>&1)
+``````````````````````````````
 
-0 4 * * 1 apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.log 2>&1)
+* Ouvrir le fichier crontab ->	`sudo crontab -e`
 
-@reboot apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.log2>&1)
+* Y ajouter les lignes suivantes :
+``````````````````````````````
+0 4 * * 5 /etc/cron.d/update_packages
+@reboot /etc/cron.d/update_packages
+``````````````````````````````
+<br/><br/><br/>
 
-(Pour tester la commande sur le terminal il faut ajouter les droits d'écriture
-pour les non-root au fichier update_script.log).
+### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit
+
+* Créer un fichier dans /etc/cron.d dans lequel on stocke ce que renvoie la commande md5sum -> `sudo touch cron_old_hash`
+* Créer un fichier dans /etc/cron.d dans lequel on ecrira le script -> `sudo touch cron_file_control`
+* Donner les droits d'execution au root -> `chmod 744 cron_file_control`
+* Ouvrir le fichier avec vim -> `sudo vim cron_file_control` puis ecrire ce script :
+
+``````````````````````````````
+#!/bin/bash
+
+cron_old_hash=`cat /etc/cron.d/cron_old_hash`;
+cron_new_hash=`md5sum /etc/crontab`;
+
+if [ "$cron_old_hash" != "$cron_new_hash" ];
+then
+	md5sum /etc/crontab > /etc/cron.d/cron_old_hash;
+	echo "WARNING - CRONTAB FILE WAS MODIFIED !!!" | mail -s "Warning - crontab file modification" root@localhost;
+fi
+``````````````````````````````
+
+* Ouvrir le fichier crontab ->	`sudo crontab -e`
+
+* Y ajouter la ligne suivante :
+``````````````````````````````
+0 0 * * * /etc/cron.d/cron_file_control
+``````````````````````````````
+
