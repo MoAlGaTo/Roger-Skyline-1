@@ -2,6 +2,8 @@
 
 Roger-Skyline-1 est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
 
+Roger-Skyline-1 is a project that aims to introduce us to the basics of system and network administration, and thus create and configure a *Debian* web server.
+
 <br/><br/><br/><br/>
 ***
 
@@ -26,10 +28,11 @@ Partition :
 * 4.2 GB on Mount point
   **/!\ Shows as 4.2G with `sudo fdisk -l --bytes` /!\ `sudo fdisk -l` gives results in GiB, not GB**
   ![linux - linux](/Screenshots/fdisk_-l.png)
+  ***
 
 * Choose a root password
 * Create a non-root user
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ### Setup
 
@@ -45,11 +48,12 @@ Add to the file :
 username	ALL(ALL:ALL) ALL
 ```````````````````````````````````````````````````````````````````````````````
 ![linux - linux](/Screenshots/sudo_file.png)
+***
 or:
 `adduser $username sudo`
 
 You can now exit to go back to your non-root user and use sudo when you need root privileges
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ***
 
@@ -74,9 +78,10 @@ Par<br/>
   gateway 10.11.254.254
 ```````````````````````````````````````````
 ![linux - linux](/Screenshots/dhcp.png)
+***
 
 * Redemarrer le serivce réseau -> `sudo service networking restart`
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ### 2) Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH
 
@@ -109,9 +114,10 @@ PasswordAuthentication no
 PubkeyAuthentication yes
 ``````````````````````````
 ![linux - linux](/Screenshots/ssh.png)
+***
 <br/>
 * Redemarrer le service -> `sudo sevice ssh restart`
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ### 3) Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM
 
