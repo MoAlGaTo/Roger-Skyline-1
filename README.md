@@ -1,8 +1,8 @@
 # Roger-Skyline-1
 
-Roger-Skyline-1 est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
+**Roger-Skyline-1** est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
 
-Roger-Skyline-1 is a project that aims to introduce us to the basics of system and network administration, and thus create and configure a *Debian* web server.
+**Roger-Skyline-1** is a project that aims to introduce us to the basics of system and network administration, and thus create and configure a *Debian* web server.
 
 <br/><br/><br/><br/>
 ***
@@ -13,13 +13,13 @@ Roger-Skyline-1 is a project that aims to introduce us to the basics of system a
 https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.4.0-amd64-netinst.iso
 <br/><br/><br/>
 
-### Installation de la VM
+### Installation de la VM - VM Setup
 
-* Name : debian
+* Nom - Name : debian
 * Type : Linux
 * Version : Debian (64-bit)
 
-Create a virtual hard disk:
+Créer un disque dur virtuel - Create a virtual hard disk:
 * VDI, Dynamically allocated, 7.45 GiB = 8 GB
   **/!\ VirtualBox displays GB while in reality it uses GiB**
     
@@ -30,47 +30,45 @@ Partition :
   ![linux - linux](/Screenshots/fdisk_-l.png)
   ***
 
-* Choose a root password
-* Create a non-root user
+* Choisir un mot de passe root - Choose a root password
+* Créer un utilisateur non-root - Create a non-root user
 <br/><br/><br/><br/><br/>
 
-### Setup
+### Sudo
 
-Log in as the non-root user
-`su` to log in as root
+Se connecter en tant qu'utilisateur non-root - Log in as the non-root user
+Pour se connecter en tant que root - to log in as root : `su`
 
-install sudo
-`apt-get install sudo -y`
-open file
-`vim /etc/sudoers`
-Add to the file :
+installer sudo - install sudo : `apt-get install sudo -y`
+ouvrir le fichier - open file : `vim /etc/sudoers`
+Ajouter au fichier - Add to the file :
 ```````````````````````````````````````````````````````````````````````````````
 username	ALL(ALL:ALL) ALL
 ```````````````````````````````````````````````````````````````````````````````
 ![linux - linux](/Screenshots/sudo_file.png)
 ***
-or:
-`adduser $username sudo`
+ou - or: `adduser $username sudo`
 
-You can now exit to go back to your non-root user and use sudo when you need root privileges
+On peut maintenant retourner à l'utilisateur non-root `su $utilisateurNonRoot` et utiliser sudo quand on a besoin des privilèges root.<br/>
+We can now exit to go back to non-root user `su $nonRootUser` and use sudo when we need root privileges.
 <br/><br/><br/><br/><br/><br/><br/>
 
 ***
 
-### 1) Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en/30
+### 1) Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en /30<br/>Disable the DHCP service of the machine and give a fixed IP and a Netmask in /30
 
-* [DHCP](Dynamic Host Configuration Protocol) : Protocole reseau dont le role est d'assurer la configuration automatique des parametres IP d'une station ou d'une machine, notamment en lui attribuant automatiquement une adresse IP et un masque de sous-reseau.
+* [DHCP](Dynamic Host Configuration Protocol) : Protocole reseau dont le role est d'assurer la configuration automatique des parametres IP d'une station ou d'une machine, notamment en lui attribuant automatiquement une adresse IP et un masque de sous-reseau - Network protocol whose role is to ensure the automatic configuration of the IP parameters of a station or a machine, in particular by automatically assigning an IP address and a subnet mask to it.
 
-[Configuration de l'adresse IP pour la rendre fixe]:
+[Configuration de l'adresse IP pour la rendre fixe - Configuring the IP address to make it fixed]:
 
-* Ouvrir le fichier /etc/network/interfaces -> `sudo vim /etc/network/interfaces`
-* Modifier ces lignes<br/>
+* Ouvrir le fichier - Open this file : /etc/network/interfaces -> `sudo vim /etc/network/interfaces`
+* Modifier ces lignes - Edit these lines<br/>
 ```````````````````````````````````````````
   auto eth0
   iface eth0 inet dhcp
 ```````````````````````````````````````````
 
-Par<br/>
+Par - With<br/>
 ```````````````````````````````````````````
   iface enp0s3 inet static
   adress 10.11.35.63
@@ -80,35 +78,41 @@ Par<br/>
 ![linux - linux](/Screenshots/dhcp.png)
 ***
 <br/>
-* Redemarrer le serivce réseau -> `sudo service networking restart`
+* Redemarrer le serivce réseau - Restart the network service -> `sudo service networking restart`
 <br/><br/><br/><br/><br/>
 
-### 2) Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH
+### 2) Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH<br/>Change the default port of the SSH service to the port of our choice. SSH access must be done with publickeys. The root user must not be able to connect in SSH
 
-* [SSH](Secure SHell) : est à la fois un programme informatique et un protocole de communication sécurisé.
-
-* Ouvrir le fichier /etc/network/sshd_config -> `sudo vim /etc/ssh/sshd_config`
-* Changer le port par défaut SSH (22):
-Port 22 -> Port 1992 (par exemple)
+* [SSH](Secure SHell) : est à la fois un programme informatique et un protocole de communication sécurisé - is both a computer program and a secure communication protocol.
 
 (les ports disponibles sont au nombre de 65 536(2^16), 16 premiers bits en partant de droite.
-Les ports utilisés par défaut par le systeme sont de 0 a 1023, 22 étant le port par defaut du service SSH).
+Les ports utilisés par défaut par le systeme sont de 0 a 1023, 22 étant le port par defaut du service SSH).<br/>
+(the available ports are 65,536(2^16), first 16 bits from right.
+The default ports used by the system are from 0 to 1023, 22 being the default port for the SSH service).
 
-interdire l'utilisateur root de se connecter en SSH
-* PermitRootLogin without-password ->	`PermitRootLogin no`
+* Ouvrir le fichier - Open this file : /etc/network/sshd_config -> `sudo vim /etc/ssh/sshd_config`
+* Changer le port par défaut SSH (22) - Change the default SSH port (22): Port 22 -> Port 1992 (par exemple - for exemple) :
+```````````````````````````
+port 1992
+```````````````````````````
+* Interdire l'utilisateur root de se connecter en SSH - Prohibit the root user from logging in SSH :
+```````````````````````````
+PermitRootLogin no
+```````````````````````````
 
-[Accès SSH avec publickey]
-(A effectuer sur la machine locale)
-* Generer une paire de clés SSH -> `ssh-keygen`
-* Copier la cle sur le serveur pour l'autoriation -> `ssh-copy-id moalgato@10.11.35.63 -p 1992`
+[Accès SSH avec une publickey - SSH access with a publickey]
+(A effectuer sur la machine locale - To be done on the local machine)
+* Génerer une paire de clés SSH - Generate SSH key pair -> `ssh-keygen`
+* Copier la cle sur le serveur pour l'autoriation - Copy the key to the server for authorization -> `ssh-copy-id moalgato@10.11.35.63 -p 1992`
 * Taper le mot de passe
 
-* Ouvrir le fichier sshd_config -> `sudo vim /etc/ssh/sshd_config`
+* Ouvrir le fichier sshd_config - Open the sshd_config file -> `sudo vim /etc/ssh/sshd_config`
 * PasswordAuthentication yes ->
 ``````````````````````````
 PasswordAuthentication no
 ``````````````````````````
 (aprés établissement de la connexion afin d'empecher toutes nouvelles connexions)<br/>
+after the connection has been established in order to prevent any new connections<br/>
 * PubkeyAuthentication yes ->
 ``````````````````````````
 PubkeyAuthentication yes
@@ -116,16 +120,17 @@ PubkeyAuthentication yes
 ![linux - linux](/Screenshots/ssh.png)
 ***
 <br/>
-* Redemarrer le service -> `sudo sevice ssh restart`
+* Redemarrer le service ssh - Restart the ssh service -> `sudo sevice ssh restart`
 <br/><br/><br/><br/><br/>
 
-### 3) Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM
+### 3) Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM<br/>Set up firewall rules on the server with only used services accessible outside the VM
 
-* Installer iptables-persistent
-(version qui permet de rendre les modifications persistante) ->	`sudo apt-get install iptables-persistent`
+* Installer iptables-persistent - Install iptables-persistent<br/>
+(version qui permet de rendre les modifications persistante)<br>
+(version that allows you to make changes persistent) ->	`sudo apt-get install iptables-persistent`
 
-* Ouvrir le fichier rules.v4 /etc/iptables/rules.v4 -> `sudo vim /etc/iptables/rules.v4`
-et configurer le firewall en y ajoutant les lignes suivantes :
+* Ouvrir le fichier - Open this file : /etc/iptables/rules.v4 -> `sudo vim /etc/iptables/rules.v4`
+et configurer le firewall en y ajoutant les lignes suivantes - and configure the firewall by adding the following lines :
 
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 *filter
@@ -184,22 +189,25 @@ COMMIT
 ![linux - linux](/Screenshots/iptables.png)
 ***
 <br/>
-* Redémmarer le service -> sudo service netfilter-persistent restart
+* Redémmarer le service - Restart the service -> `sudo service netfilter-persistent restart`
 
-* Vérifier le chargement des modifications -> sudo iptables -L
+* Vérifier le chargement des modifications - Check the loading of changes -> `sudo iptables -L`
 
 <br/><br/><br/><br/><br/>
 
-### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM
+### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM<br/>Implement DOS (Denial Of ServiceAttack) protection on open ports of the VM
 
-[Fail2ban] : Fail2ban est un framework de prévention contre les intrusions, Fail2ban bloque les adresses IP appartenant à des hôtes qui tentent de casser la sécurité du système, pendant une période configurable (mise en quarantaine).
+[Fail2ban] :<br/>
+Fail2ban est un framework de prévention contre les intrusions, Fail2ban bloque les adresses IP appartenant à des hôtes qui tentent de casser la sécurité du système, pendant une période configurable (mise en quarantaine).<br/>
+Fail2ban is an intrusion prevention framework, Fail2ban blocks IP addresses belonging to hosts that attempt to breach system security, for a configurable period of time (quarantine).
 
-* Installer fail2ban -> `sudo apt-get install fail2ban`
+* Installer fail2ban - Install fail2ban -> `sudo apt-get install fail2ban`
 
-* Copier le fichier jail.conf -> `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`
-(le fichier jail.conf sera modifier à chaque mis à jour, donc pour un fichier fixe, en créer un autre (jail.local)).
+* Copier le fichier jail.conf - Copy the jail.conf file -> `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`
+(le fichier jail.conf sera modifier à chaque mis à jour, donc pour un fichier fixe, en créer un autre (jail.local)).<br/>
+(the jail.conf file will be modified at each update, so for a fixed file, create another one (jail.local)).
 
-* Ouvrir le fichier `sudo vim /etc/fail2ban/jail.local` et y ajouter/modifier ces lignes:
+* Ouvrir le fichier - Open this file : `sudo vim /etc/fail2ban/jail.local` et y ajouter/modifier ces lignes - and add/modify these lines :
 ```````````````````````````````````````````````````````````````````````````````````````````````
 # "bantime" is the number of seconds that a host is banned.
 bantime  = 10m
@@ -236,28 +244,29 @@ logpath  = %(apache_error_log)s
 ![linux - linux](/Screenshots/fail2ban_3.png)
 ***
 <br/>
-* Redémmarer le service -> sudo service fail2ban restart
+* Redémmarer le service - Restart the service -> `sudo service fail2ban restart`
 <br/><br/><br/><br/><br/>
 
-### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM
+### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM<br/>Set up scan protection on open ports of the VM
 
-[Scan : permet de trouver dans un délai très court, tous les ports ouverts sur une machine distante.]
+[Scan]:<br/>
+permet de trouver dans un délai très court, tous les ports ouverts sur une machine distante.<br/>
+allows you to find all open ports on a remote machine in a very short period of time.
 
 [PSAD : Port Scan Attack Detector]
 
-* Installer PSAD -> `sudo apt-get install psad`
+* Installer PSAD - Install PSAD -> `sudo apt-get install psad`
 
-* Ajouter au fichier IPtables ces deux lignes `sudo vim /etc/iptables/rules.v4` ->
+* Ajouter au fichier IPtables ces deux lignes - Add these two lines to the IPtables file : `sudo vim /etc/iptables/rules.v4` ->
 ````````````````````````
 -A INPUT -j LOG
 -A FORWARD -j LOG
 ````````````````````````
-(Active la journalisation sur les chaînes d'entrée et de transfert d'IPtables afin que le démon PSAD puisse détecter toute activité anormale.)
+(Active la journalisation sur les chaînes d'entrée et de transfert d'IPtables afin que le démon PSAD puisse détecter toute activité anormale.)<br/>(Enables logging on IPtables input and transfer strings so that the PSAD daemon can detect any abnormal activity).
 
-* Ouvrir le fichier de configuration
-principal du /etc/psad/psad.conf -> `sudo vim /etc/psad/psad.conf`
+* Ouvrir le fichier de configuration - Open the configuration file /etc/psad/psad.conf -> `sudo vim /etc/psad/psad.conf`
 
-* Modifier les lignes suivantes ->
+* Modifier les lignes suivantes - Modify the following lines :
 ````````````````````````
 EMAIL_ADDRESSES		root@localhost;
 HOSTNAME		localhost;
@@ -265,7 +274,7 @@ HOSTNAME		localhost;
 ![linux - linux](/Screenshots/psad_1.png)
 ***
 
-* Modifier ceci pour pointer vers le fichier syslog, où psad aura réellement la possibilité de parcourir les journaux actifs ->
+* Modifier ceci pour pointer vers le fichier syslog, où psad aura réellement la possibilité de parcourir les journaux actifs - Modify this to point to the syslog file, where psad will actually be able to browse the active logs :
 ````````````````````````
 ENABLE_SYSLOG_FILE	Y;
 IPT_WRITE_FWDATA	Y;
@@ -274,7 +283,7 @@ IPT_SYSLOG_FILE		/var/log/syslog;
 ![linux - linux](/Screenshots/psad_2.png)
 ***
 
-* Activer les paramètres suivants pour activer la fonction IPS et le niveau de danger. <br/>Après avoir activé le paramètre dans le fichier de configuration, le démon PSAD bloquera automatiquement l'attaquant en ajoutant son adresse IP dans les chaînes IPtables.
+* Activer les paramètres suivants pour activer la fonction IPS et le niveau de danger. <br/>Après avoir activé le paramètre dans le fichier de configuration, le démon PSAD bloquera automatiquement l'attaquant en ajoutant son adresse IP dans les chaînes IPtables - Activate the following parameters to activate the IPS function and the danger level. <After enabling the parameter in the configuration file, the PSAD daemon will automatically block the attacker by adding his IP address in the IPtable strings :
 ````````````````````````
 ENABLE_AUTO_IDS		Y;
 AUTO_IDS_DANGER_LEVEL	1;
@@ -282,12 +291,11 @@ AUTO_IDS_DANGER_LEVEL	1;
 ![linux - linux](/Screenshots/psad_3.png)
 ***
 <br/>
-* Exécuter maintenant la commande suivante pour mettre à jour la base de données 
-de signatures pour la détection des attaques ->	`psad --sig-update`
+* Exécuter maintenant la commande suivante pour mettre à jour la base de données de signatures pour la détection des attaques - Now run the following command to update the signature database for attack detection -> `psad --sig-update`
 
-* Redemarrer le service -> `sudo psad -R` (restart)
+* Redemarrer le service - Restart the service -> `sudo psad -R` (restart)
 
-* Afficher l'etat de tous les proccessus en cours -> `sudo psad -S` (status)
+* Afficher l'etat de tous les proccessus en cours - Show status of all running processes -> `sudo psad -S` (status)
 <br/><br/><br/><br/><br/>
 
 ### 6) Arretez les services non nécessaire pour ce projet
