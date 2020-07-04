@@ -1,8 +1,9 @@
 # Roger-Skyline-1
 
 Roger-Skyline-1 est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
-***
+
 <br/><br/><br/><br/>
+***
 
 
 ### Debian ISO
@@ -24,9 +25,10 @@ Partition :
 * Manual
 * 4.2 GB on Mount point
   **/!\ Shows as 4.2G with `sudo fdisk -l --bytes` /!\ `sudo fdisk -l` gives results in GiB, not GB**
+  ![linux - linux](/Screenshots/fdisk_-l.png)
 
-Choose a root password<br/>
-Create a non-root user
+* Choose a root password
+* Create a non-root user
 <br/><br/><br/>
 
 ### Setup
@@ -42,13 +44,14 @@ Add to the file :
 ```````````````````````````````````````````````````````````````````````````````
 username	ALL(ALL:ALL) ALL
 ```````````````````````````````````````````````````````````````````````````````
+![linux - linux](/Screenshots/sudo_file.png)
 or:
 `adduser $username sudo`
 
 You can now exit to go back to your non-root user and use sudo when you need root privileges
 <br/><br/><br/>
 
-----------------------------------------------------------------------------------------------------------------------
+***
 
 ### 1) Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en/30
 
@@ -70,6 +73,7 @@ Par<br/>
   netmask 255.255.255.252
   gateway 10.11.254.254
 ```````````````````````````````````````````
+![linux - linux](/Screenshots/dhcp.png)
 
 * Redemarrer le serivce réseau -> `sudo service networking restart`
 <br/><br/><br/>
@@ -100,11 +104,12 @@ interdire l'utilisateur root de se connecter en SSH
 PasswordAuthentication no
 ``````````````````````````
 (aprés établissement de la connexion afin d'empecher toutes nouvelles connexions)<br/>
-* PubkeyAuthentication yes->
+* PubkeyAuthentication yes ->
 ``````````````````````````
 PubkeyAuthentication yes
 ``````````````````````````
-<br/><br/>
+![linux - linux](/Screenshots/ssh.png)
+<br/>
 * Redemarrer le service -> `sudo sevice ssh restart`
 <br/><br/><br/>
 
@@ -170,6 +175,12 @@ et configurer le firewall en y ajoutant les lignes suivantes :
 
 COMMIT
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+![linux - linux](/Screenshots/iptables.png)
+
+* Redémmarer le service -> sudo service netfilter-persistent restart
+
+* Vérifier le chargement des modifications -> sudo iptables -L
+
 <br/><br/><br/>
 
 ### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM
@@ -192,8 +203,9 @@ findtime  = 10m
 
 # "maxretry" is the number of failures before a host get banned.
 maxretry = 3
-
-
+```````````````````````````````````````````````````````````````````````````````````````````````
+![linux - linux](/Screenshots/fail2ban_1.png)
+```````````````````````````````````````````````````````````````````````````````````````````````
 action = %(action_mwl)s
 
 
@@ -203,14 +215,17 @@ enabled = true
 port    = 1992
 logpath = %(sshd_log)s
 backend = %(sshd_backend)s
-
-
+```````````````````````````````````````````````````````````````````````````````````````````````
+![linux - linux](/Screenshots/fail2ban_2.png)
+```````````````````````````````````````````````````````````````````````````````````````````````
 [apache-auth]
 
 enabled = true
 port     = http,https
 logpath  = %(apache_error_log)s
 ```````````````````````````````````````````````````````````````````````````````````````````````
+![linux - linux](/Screenshots/fail2ban_3.png)
+* Redémmarer le service -> sudo service fail2ban restart
 <br/><br/><br/>
 
 ### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM
@@ -236,6 +251,7 @@ principal du /etc/psad/psad.conf -> `sudo vim /etc/psad/psad.conf`
 EMAIL_ADDRESSES		root@localhost;
 HOSTNAME		localhost;
 ````````````````````````
+![linux - linux](/Screenshots/psad_1.png)
 
 * Modifier ceci pour pointer vers le fichier syslog, où psad aura réellement la possibilité de parcourir les journaux actifs ->
 ````````````````````````
@@ -243,12 +259,14 @@ ENABLE_SYSLOG_FILE	Y;
 IPT_WRITE_FWDATA	Y;
 IPT_SYSLOG_FILE		/var/log/syslog;
 ````````````````````````
+![linux - linux](/Screenshots/psad_2.png)
 
 * Activer les paramètres suivants pour activer la fonction IPS et le niveau de danger. <br/>Après avoir activé le paramètre dans le fichier de configuration, le démon PSAD bloquera automatiquement l'attaquant en ajoutant son adresse IP dans les chaînes IPtables.
 ````````````````````````
 ENABLE_AUTO_IDS		Y;
 AUTO_IDS_DANGER_LEVEL	1;
 ````````````````````````
+![linux - linux](/Screenshots/psad_3.png)
 
 * Exécuter maintenant la commande suivante pour mettre à jour la base de données 
 de signatures pour la détection des attaques ->	`psad --sig-update`
@@ -262,7 +280,7 @@ de signatures pour la détection des attaques ->	`psad --sig-update`
 
 * Lister les services disponibles et répertorie <br/>l'état des services contrôlés par le systeme -> `sudo systemctl list-units --type=service --state=active`
 
-IMAGE
+![linux - linux](/Screenshots/systemctl.png)
 
 * Stopper un service -> `sudo systemctl disable $nameofservice`
 
@@ -292,6 +310,7 @@ date et une heure spécifiée à l’avance.
 
 apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.log 2>&1)
 ``````````````````````````````
+![linux - linux](/Screenshots/cron_script_1.png)
 
 * Ouvrir le fichier crontab ->	`sudo crontab -e`
 
@@ -300,6 +319,7 @@ apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.
 0 4 * * 5 /etc/cron.d/update_packages
 @reboot /etc/cron.d/update_packages
 ``````````````````````````````
+![linux - linux](/Screenshots/cron_1.png)
 <br/><br/><br/>
 
 ### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit
@@ -321,6 +341,7 @@ then
 	echo "WARNING - CRONTAB FILE WAS MODIFIED !!!" | mail -s "Warning - crontab file modification" root@localhost;
 fi
 ``````````````````````````````
+![linux - linux](/Screenshots/cron_script_2.png)
 
 * Ouvrir le fichier crontab ->	`sudo crontab -e`
 
@@ -328,4 +349,5 @@ fi
 ``````````````````````````````
 0 0 * * * /etc/cron.d/cron_file_control
 ``````````````````````````````
+![linux - linux](/Screenshots/cron_2.png)
 
