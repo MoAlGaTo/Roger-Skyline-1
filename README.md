@@ -53,7 +53,7 @@ or:
 `adduser $username sudo`
 
 You can now exit to go back to your non-root user and use sudo when you need root privileges
-<br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/>
 
 ***
 
@@ -79,7 +79,7 @@ Par<br/>
 ```````````````````````````````````````````
 ![linux - linux](/Screenshots/dhcp.png)
 ***
-
+<br/>
 * Redemarrer le serivce réseau -> `sudo service networking restart`
 <br/><br/><br/><br/><br/>
 
@@ -182,12 +182,13 @@ et configurer le firewall en y ajoutant les lignes suivantes :
 COMMIT
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 ![linux - linux](/Screenshots/iptables.png)
-
+***
+<br/>
 * Redémmarer le service -> sudo service netfilter-persistent restart
 
 * Vérifier le chargement des modifications -> sudo iptables -L
 
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM
 
@@ -211,6 +212,7 @@ findtime  = 10m
 maxretry = 3
 ```````````````````````````````````````````````````````````````````````````````````````````````
 ![linux - linux](/Screenshots/fail2ban_1.png)
+***
 ```````````````````````````````````````````````````````````````````````````````````````````````
 action = %(action_mwl)s
 
@@ -223,6 +225,7 @@ logpath = %(sshd_log)s
 backend = %(sshd_backend)s
 ```````````````````````````````````````````````````````````````````````````````````````````````
 ![linux - linux](/Screenshots/fail2ban_2.png)
+***
 ```````````````````````````````````````````````````````````````````````````````````````````````
 [apache-auth]
 
@@ -231,8 +234,10 @@ port     = http,https
 logpath  = %(apache_error_log)s
 ```````````````````````````````````````````````````````````````````````````````````````````````
 ![linux - linux](/Screenshots/fail2ban_3.png)
+***
+<br/>
 * Redémmarer le service -> sudo service fail2ban restart
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM
 
@@ -258,6 +263,7 @@ EMAIL_ADDRESSES		root@localhost;
 HOSTNAME		localhost;
 ````````````````````````
 ![linux - linux](/Screenshots/psad_1.png)
+***
 
 * Modifier ceci pour pointer vers le fichier syslog, où psad aura réellement la possibilité de parcourir les journaux actifs ->
 ````````````````````````
@@ -266,6 +272,7 @@ IPT_WRITE_FWDATA	Y;
 IPT_SYSLOG_FILE		/var/log/syslog;
 ````````````````````````
 ![linux - linux](/Screenshots/psad_2.png)
+***
 
 * Activer les paramètres suivants pour activer la fonction IPS et le niveau de danger. <br/>Après avoir activé le paramètre dans le fichier de configuration, le démon PSAD bloquera automatiquement l'attaquant en ajoutant son adresse IP dans les chaînes IPtables.
 ````````````````````````
@@ -273,24 +280,26 @@ ENABLE_AUTO_IDS		Y;
 AUTO_IDS_DANGER_LEVEL	1;
 ````````````````````````
 ![linux - linux](/Screenshots/psad_3.png)
-
+***
+<br/>
 * Exécuter maintenant la commande suivante pour mettre à jour la base de données 
 de signatures pour la détection des attaques ->	`psad --sig-update`
 
 * Redemarrer le service -> `sudo psad -R` (restart)
 
 * Afficher l'etat de tous les proccessus en cours -> `sudo psad -S` (status)
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ### 6) Arretez les services non nécessaire pour ce projet
 
 * Lister les services disponibles et répertorie <br/>l'état des services contrôlés par le systeme -> `sudo systemctl list-units --type=service --state=active`
 
 ![linux - linux](/Screenshots/systemctl.png)
-
+***
+<br/>
 * Stopper un service -> `sudo systemctl disable $nameofservice`
 
-Désactiver les services estimé non necéssaires ->
+Désactiver les services estimé non necéssaires :
 
 * console-setup.service : Ce paquet fournit à la console le même modèle
 de configuration du clavier que celui du système X Window.
@@ -298,7 +307,7 @@ de configuration du clavier que celui du système X Window.
 * keyboard-setup.service : configuration du clavier.
 
 * exim4 : Mail Transfert Agent (postfix est utilisé à la place).
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
 
 ### 7) Réalisez un script qui met à jour l’ensemble des sources de package, puis de vos packages et qui log l’ensemble dans un fichier nommé /var/log/update_script.log. Créez une tache planifiée pour ce script une fois par semaine à 4h00 du matin età chaque reboot de la machine
 
@@ -317,6 +326,7 @@ date et une heure spécifiée à l’avance.
 apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.log 2>&1)
 ``````````````````````````````
 ![linux - linux](/Screenshots/cron_script_1.png)
+***
 
 * Ouvrir le fichier crontab ->	`sudo crontab -e`
 
@@ -326,7 +336,8 @@ apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.
 @reboot /etc/cron.d/update_packages
 ``````````````````````````````
 ![linux - linux](/Screenshots/cron_1.png)
-<br/><br/><br/>
+***
+<br/><br/><br/><br/><br/>
 
 ### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit
 
@@ -348,6 +359,7 @@ then
 fi
 ``````````````````````````````
 ![linux - linux](/Screenshots/cron_script_2.png)
+***
 
 * Ouvrir le fichier crontab ->	`sudo crontab -e`
 
@@ -356,4 +368,6 @@ fi
 0 0 * * * /etc/cron.d/cron_file_control
 ``````````````````````````````
 ![linux - linux](/Screenshots/cron_2.png)
+***
+<br/><br/><br/><br/><br/>
 
