@@ -3,7 +3,14 @@
 **Roger-Skyline-1** est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
 
 **Roger-Skyline-1** is a project that aims to introduce us to the basics of system and network administration, and thus create and configure a *Debian* web server.
-Some Markdown text with color:red some *blue* text.
+Some Markdown text with 
+```diff
+- text in red
++ text in green
+! text in orange
+# text in gray
+@@ text in purple (and bold)@@
+```
 
 <br/><br/><br/><br/>
 ***
