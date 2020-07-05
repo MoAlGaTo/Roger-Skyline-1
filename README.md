@@ -4,13 +4,9 @@
 
 **Roger-Skyline-1** is a project that aims to introduce us to the basics of system and network administration, and thus create and configure a *Debian* web server.
 Some Markdown text with 
-```diff
-- text in red
-+ text in green
-! text in orange
-# text in gray
-@@ text in purple (and bold)@@
-```
+<div class="text-purple">
+  This text is purple, <a href="#" class="text-inherit">including the link</a>
+</div>
 
 <br/><br/><br/><br/>
 ***
