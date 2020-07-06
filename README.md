@@ -2,11 +2,15 @@
 
 ### Français:
 
-**Roger-Skyline-1** est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
+**Roger-Skyline-1** est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer, installer et configurer un serveur web de type *Debian*.
+
+Les consignes du projet sont décrites ci-dessous (ou dans rs1_subject_fr.pdf), ainsi que les différentes procédures.
 
 ### English:
 
-**Roger-Skyline-1** is a project that aims to introduce us to the basics of system and network administration, and thus create and configure a *Debian* web server.
+**Roger-Skyline-1** is a project that aims to introduce us to the basics of system and network administration, and thus create, install and configure a *Debian* web server.
+
+The project guidelines are described below (or in rs1_subject_en.pdf), as well as the different procedures.
 
 <br/><br/><br/><br/>
 ***
