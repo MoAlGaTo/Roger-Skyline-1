@@ -56,7 +56,7 @@ We can now exit to go back to non-root user `su $nonRootUser` and use sudo when 
 
 ***
 
-### 1) Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en /30<br/><br/>Disable the DHCP service of the machine and give a fixed IP and a Netmask in /30<br/>
+### 1) Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en /30<br/><br/>Disable the DHCP service of the machine and give a fixed IP and a Netmask in /30
 
 
 * [DHCP](Dynamic Host Configuration Protocol) :<br/>
@@ -87,7 +87,7 @@ Par - With<br/>
 * Redemarrer le serivce réseau - Restart the network service -> `sudo service networking restart`
 <br/><br/><br/><br/><br/>
 
-### 2) Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH<br/><br/>Change the default port of the SSH service to the port of our choice. SSH access must be done with publickeys. The root user must not be able to connect in SSH<br/>
+### 2) Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH<br/><br/>Change the default port of the SSH service to the port of our choice. SSH access must be done with publickeys. The root user must not be able to connect in SSH
 
 
 * [SSH](Secure SHell) : est à la fois un programme informatique et un protocole de communication sécurisé - is both a computer program and a secure communication protocol.
@@ -132,7 +132,7 @@ PubkeyAuthentication yes
 * Redemarrer le service ssh - Restart the ssh service -> `sudo service ssh restart`
 <br/><br/><br/><br/><br/>
 
-### 3) Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM<br/><br/>Set up firewall rules on the server with only used services accessible outside the VM<br/>
+### 3) Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM<br/><br/>Set up firewall rules on the server with only used services accessible outside the VM
 
 
 * Installer iptables-persistent - Install iptables-persistent<br/>
@@ -207,7 +207,7 @@ COMMIT
 
 <br/><br/><br/><br/><br/>
 
-### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM<br/><br/>Implement DOS (Denial Of ServiceAttack) protection on open ports of the VM<br/>
+### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM<br/><br/>Implement DOS (Denial Of ServiceAttack) protection on open ports of the VM
 
 
 [Fail2ban] :<br/>
@@ -256,7 +256,7 @@ logpath  = %(apache_error_log)s
 * Redémmarer le service - Restart the service -> `sudo service fail2ban restart`
 <br/><br/><br/><br/><br/>
 
-### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM<br/><br/>Set up scan protection on open ports of the VM<br/>
+### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM<br/><br/>Set up scan protection on open ports of the VM
 
 
 [Scan]:<br/>
@@ -310,7 +310,7 @@ AUTO_IDS_DANGER_LEVEL	1;
 * Afficher l'etat de tous les proccessus en cours - Show status of all running processes -> `sudo psad -S` (status)
 <br/><br/><br/><br/><br/>
 
-### 6) Arretez les services non nécessaire pour ce projet<br/><br/>Stop services not required for this project.<br/>
+### 6) Arretez les services non nécessaire pour ce projet<br/><br/>Stop services not required for this project.
 
 
 * Lister les services disponibles et répertorier l'état des services contrôlés par le systeme - List available services and list the status of services controlled by the system -> `sudo systemctl list-units --type=service --state=active`
@@ -333,7 +333,7 @@ Désactiver les services estimé non necéssaires - Disable services deemed unne
 	* exim4 : Mail Transfert Agent (postfix est utilisé à la place) - Mail Transfert Agent (postfix is used instead).
 <br/><br/><br/><br/><br/>
 
-### 7) Réalisez un script qui met à jour l’ensemble des sources de package, puis de vos packages et qui log l’ensemble dans un fichier nommé /var/log/update_script.log. Créez une tache planifiée pour ce script une fois par semaine à 4h00 du matin età chaque reboot de la machine<br/><br/>Make a script that updates all the package sources, then your packages, and log all of them in a file named /var/log/update_script.log. Create a scheduled task for this script once a week at 4:00 am and at each reboot of the machine.<br/>
+### 7) Réalisez un script qui met à jour l’ensemble des sources de package, puis de vos packages et qui log l’ensemble dans un fichier nommé /var/log/update_script.log. Créez une tache planifiée pour ce script une fois par semaine à 4h00 du matin età chaque reboot de la machine<br/><br/>Make a script that updates all the package sources, then your packages, and log all of them in a file named /var/log/update_script.log. Create a scheduled task for this script once a week at 4:00 am and at each reboot of the machine.
 
 
 [Cron] :<br/>
@@ -366,7 +366,7 @@ apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.
 
 <br/><br/><br/><br/><br/>
 
-### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit<br/><br/>Run a script that monitors changes to /etc/crontab and sends a mail to root if it has been modified. Create a scheduled script task every day at midnight.<br/>
+### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit<br/><br/>Run a script that monitors changes to /etc/crontab and sends a mail to root if it has been modified. Create a scheduled script task every day at midnight.
 
 
 * Créer un fichier dans - Create a file in : /etc/cron.d dans lequel on stocke ce que renvoie la commande md5sum - in which we store what the md5sum command returns -> `sudo /etc/cron.d/touch cron_old_hash`
