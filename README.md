@@ -1,7 +1,8 @@
 # Roger-Skyline-1
 
 **Roger-Skyline-1** est un projet qui a pour but de nous initier aux bases de l'administration système et réseau, et ainsi créer et configurer un serveur web de type *Debian*.
-<br/>
+
+
 **Roger-Skyline-1** is a project that aims to introduce us to the basics of system and network administration, and thus create and configure a *Debian* web server.
 
 <br/><br/><br/><br/>
@@ -57,9 +58,9 @@ We can now exit to go back to non-root user `su $nonRootUser` and use sudo when 
 
 ### 1) Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en /30<br/><br/>Disable the DHCP service of the machine and give a fixed IP and a Netmask in /30
 
-* [DHCP](Dynamic Host Configuration Protocol) :<br/>
-Protocole reseau dont le role est d'assurer la configuration automatique des parametres IP d'une station ou d'une machine, notamment en lui attribuant automatiquement une adresse IP et un masque de sous-reseau<br/><br/>
 
+* [DHCP](Dynamic Host Configuration Protocol) :<br/>
+Protocole reseau dont le role est d'assurer la configuration automatique des parametres IP d'une station ou d'une machine, notamment en lui attribuant automatiquement une adresse IP et un masque de sous-reseau<br/>
 Network protocol whose role is to ensure the automatic configuration of the IP parameters of a station or a machine, in particular by automatically assigning an IP address and a subnet mask to it.
 
 [Configuration de l'adresse IP pour la rendre fixe - Configuring the IP address to make it fixed]:
@@ -88,10 +89,11 @@ Par - With<br/>
 
 ### 2) Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH<br/><br/>Change the default port of the SSH service to the port of our choice. SSH access must be done with publickeys. The root user must not be able to connect in SSH
 
+
 * [SSH](Secure SHell) : est à la fois un programme informatique et un protocole de communication sécurisé - is both a computer program and a secure communication protocol.
 
 (les ports disponibles sont au nombre de 65 536(2^16), 16 premiers bits en partant de droite.
-Les ports utilisés par défaut par le systeme sont de 0 a 1023, 22 étant le port par defaut du service SSH).<br/><br/>
+Les ports utilisés par défaut par le systeme sont de 0 a 1023, 22 étant le port par defaut du service SSH).<br/>
 (the available ports are 65,536(2^16), first 16 bits from right.
 The default ports used by the system are from 0 to 1023, 22 being the default port for the SSH service).
 
@@ -131,6 +133,7 @@ PubkeyAuthentication yes
 <br/><br/><br/><br/><br/>
 
 ### 3) Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM<br/><br/><br/>Set up firewall rules on the server with only used services accessible outside the VM
+
 
 * Installer iptables-persistent - Install iptables-persistent<br/>
 (version qui permet de rendre les modifications persistante)<br>
@@ -206,8 +209,9 @@ COMMIT
 
 ### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM<br/><br/>Implement DOS (Denial Of ServiceAttack) protection on open ports of the VM
 
+
 [Fail2ban] :<br/>
-Fail2ban est un framework de prévention contre les intrusions, Fail2ban bloque les adresses IP appartenant à des hôtes qui tentent de casser la sécurité du système, pendant une période configurable (mise en quarantaine).<br/><br/>
+Fail2ban est un framework de prévention contre les intrusions, Fail2ban bloque les adresses IP appartenant à des hôtes qui tentent de casser la sécurité du système, pendant une période configurable (mise en quarantaine).<br/>
 Fail2ban is an intrusion prevention framework, Fail2ban blocks IP addresses belonging to hosts that attempt to breach system security, for a configurable period of time (quarantine).
 
 * Installer fail2ban - Install fail2ban -> `sudo apt-get install fail2ban`
@@ -254,6 +258,7 @@ logpath  = %(apache_error_log)s
 
 ### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM<br/><br/>Set up scan protection on open ports of the VM
 
+
 [Scan]:<br/>
 Permet de trouver dans un délai très court, tous les ports ouverts sur une machine distante.<br/>
 Allows you to find all open ports on a remote machine in a very short period of time.
@@ -262,7 +267,7 @@ Allows you to find all open ports on a remote machine in a very short period of 
 
 * Installer PSAD - Install PSAD -> `sudo apt-get install psad`
 
-* Ajouter au fichier IPtables ces deux lignes - Add these two lines to the IPtables file : `sudo vim /etc/iptables/rules.v4` ->
+* Ajouter au fichier IPtables ces deux lignes - Add these two lines to the IPtables file : `sudo vim /etc/iptables/rules.v4` :
 ````````````````````````
 -A INPUT -j LOG
 -A FORWARD -j LOG
@@ -307,6 +312,7 @@ AUTO_IDS_DANGER_LEVEL	1;
 
 ### 6) Arretez les services non nécessaire pour ce projet<br/><br/>Stop services not required for this project.
 
+
 * Lister les services disponibles et répertorier l'état des services contrôlés par le systeme - List available services and list the status of services controlled by the system -> `sudo systemctl list-units --type=service --state=active`
 
 ![linux - linux](/Screenshots/systemctl.png)
@@ -328,6 +334,7 @@ Désactiver les services estimé non necéssaires - Disable services deemed unne
 <br/><br/><br/><br/><br/>
 
 ### 7) Réalisez un script qui met à jour l’ensemble des sources de package, puis de vos packages et qui log l’ensemble dans un fichier nommé /var/log/update_script.log. Créez une tache planifiée pour ce script une fois par semaine à 4h00 du matin età chaque reboot de la machine<br/><br/>Make a script that updates all the package sources, then your packages, and log all of them in a file named /var/log/update_script.log. Create a scheduled task for this script once a week at 4:00 am and at each reboot of the machine.
+
 
 [Cron] :<br/>
 Cron est un programme qui permet aux utilisateurs des systèmes Unix d’exécuter automatiquement des scripts, des commandes ou des logiciels à une date et une heure spécifiée à l’avance.<br/><br/>
@@ -360,6 +367,7 @@ apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.
 <br/><br/><br/><br/><br/>
 
 ### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit<br/><br/>Run a script that monitors changes to /etc/crontab and sends a mail to root if it has been modified. Create a scheduled script task every day at midnight.
+
 
 * Créer un fichier dans - Create a file in : /etc/cron.d dans lequel on stocke ce que renvoie la commande md5sum - in which we store what the md5sum command returns -> `sudo /etc/cron.d/touch cron_old_hash`
 * Créer un fichier dans - Create a file in : /etc/cron.d dans lequel on ecrira le script - in which we'll write the script -> `sudo touch /etc/cron.d/cron_file_control`
