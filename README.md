@@ -10,7 +10,7 @@ Les consignes du projet sont décrites ci-dessous (ou dans rs1_subject_fr.pdf), 
 
 **Roger-Skyline-1** is a project that aims to introduce us to the basics of system and network administration, and thus create, install and configure a *Debian* web server.
 
-The project guidelines are described below (or in rs1_subject_en.pdf), as well as the different procedures.
+The project guidelines are described below (or in rs1_subject_fr.pdf (in French)), as well as the different procedures.
 
 <br/><br/><br/><br/>
 ***
