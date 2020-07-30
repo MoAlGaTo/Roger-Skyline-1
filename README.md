@@ -44,12 +44,12 @@ Partition :
 
 ### Sudo
 
-* Se connecter en tant qu'utilisateur non-root - Log in as the non-root user
-* Pour se connecter en tant que root - To log in as root : `su`
+* <img src="Screenshots/france.png" width="10" height="15"/> Se connecter en tant qu'utilisateur non-root - <img src="Screenshots/united-states.png" width="10" height="15"/> Log in as the non-root user
+* <img src="Screenshots/france.png" width="10" height="15"/> Pour se connecter en tant que root - <img src="Screenshots/united-states.png" width="10" height="15"/> To log in as root : `su`
 
-* Installer sudo - Install sudo : `apt-get install sudo -y`
-* Ouvrir le fichier - Open file : `vim /etc/sudoers`
-* Ajouter au fichier - Add to the file :
+* <img src="Screenshots/france.png" width="10" height="15"/> Installer sudo - <img src="Screenshots/united-states.png" width="10" height="15"/> Install sudo : `apt-get install sudo -y`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier - <img src="Screenshots/united-states.png" width="10" height="15"/> Open file : `vim /etc/sudoers`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ajouter au fichier - <img src="Screenshots/united-states.png" width="10" height="15"/> Add to the file :
 ```````````````````````````````````````````````````````````````````````````````
 username	ALL(ALL:ALL) ALL
 ```````````````````````````````````````````````````````````````````````````````
@@ -57,29 +57,29 @@ username	ALL(ALL:ALL) ALL
 ***
 * Ou - Or: `adduser $username sudo`
 
-On peut maintenant retourner à l'utilisateur non-root `su $utilisateurNonRoot` et utiliser sudo quand on a besoin des privilèges root.<br/><br/>
-We can now exit to go back to non-root user `su $nonRootUser` and use sudo when we need root privileges.
+<img src="Screenshots/france.png" width="10" height="15"/> On peut maintenant retourner à l'utilisateur non-root `su $utilisateurNonRoot` et utiliser sudo quand on a besoin des privilèges root.<br/><br/>
+<img src="Screenshots/united-states.png" width="10" height="15"/> We can now exit to go back to non-root user `su $nonRootUser` and use sudo when we need root privileges.
 <br/><br/><br/><br/><br/><br/><br/>
 
 ***
 
-### 1) Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en /30<br/><br/>Disable the DHCP service of the machine and give a fixed IP and a Netmask in /30
+### 1) <img src="Screenshots/france.png" width="10" height="15"/> Désactiver le service DHCP de la machine et donner une IP fixe et un Netmask en /30<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Disable the DHCP service of the machine and give a fixed IP and a Netmask in /30
 
 
 * [DHCP](Dynamic Host Configuration Protocol) :<br/>
-Protocole reseau dont le role est d'assurer la configuration automatique des parametres IP d'une station ou d'une machine, notamment en lui attribuant automatiquement une adresse IP et un masque de sous-reseau<br/>
-Network protocol whose role is to ensure the automatic configuration of the IP parameters of a station or a machine, in particular by automatically assigning an IP address and a subnet mask to it.
+<img src="Screenshots/france.png" width="10" height="15"/> Protocole reseau dont le role est d'assurer la configuration automatique des parametres IP d'une station ou d'une machine, notamment en lui attribuant automatiquement une adresse IP et un masque de sous-reseau<br/>
+<img src="Screenshots/united-states.png" width="10" height="15"/> Network protocol whose role is to ensure the automatic configuration of the IP parameters of a station or a machine, in particular by automatically assigning an IP address and a subnet mask to it.
 
-[Configuration de l'adresse IP pour la rendre fixe - Configuring the IP address to make it fixed]:
+[<img src="Screenshots/france.png" width="10" height="15"/> Configuration de l'adresse IP pour la rendre fixe - <img src="Screenshots/united-states.png" width="10" height="15"/> Configuring the IP address to make it fixed]:
 
-* Ouvrir le fichier - Open this file : /etc/network/interfaces -> `sudo vim /etc/network/interfaces`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier - <img src="Screenshots/united-states.png" width="10" height="15"/> Open this file : /etc/network/interfaces -> `sudo vim /etc/network/interfaces`
 * Modifier ces lignes - Edit these lines<br/>
 ```````````````````````````````````````````
   auto eth0
   iface eth0 inet dhcp
 ```````````````````````````````````````````
 
-Par - With<br/>
+<img src="Screenshots/france.png" width="10" height="15"/> Par - <img src="Screenshots/united-states.png" width="10" height="15"/> With<br/>
 ```````````````````````````````````````````
   iface enp0s3 inet static
   adress 10.11.35.63
@@ -91,42 +91,42 @@ Par - With<br/>
 
 <br/>
 
-* Redemarrer le serivce réseau - Restart the network service -> `sudo service networking restart`
+* <img src="Screenshots/france.png" width="10" height="15"/> Redemarrer le serivce réseau - <img src="Screenshots/united-states.png" width="10" height="15"/> Restart the network service -> `sudo service networking restart`
 <br/><br/><br/><br/><br/>
 
-### 2) Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH<br/><br/>Change the default port of the SSH service to the port of our choice. SSH access must be done with publickeys. The root user must not be able to connect in SSH
+### 2) <img src="Screenshots/france.png" width="10" height="15"/> Changer le port par defaut du service SSH par celui de notre choix. L’accès SSH doit se faire avec des publickeys. L’utilisateur root ne doit pas pouvoir se connecter en SSH<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Change the default port of the SSH service to the port of our choice. SSH access must be done with publickeys. The root user must not be able to connect in SSH
 
 
-* [SSH](Secure SHell) : est à la fois un programme informatique et un protocole de communication sécurisé - is both a computer program and a secure communication protocol.
+* [SSH](Secure SHell) :<br/> <img src="Screenshots/france.png" width="10" height="15"/> est à la fois un programme informatique et un protocole de communication sécurisé<br/> <img src="Screenshots/united-states.png" width="10" height="15"/> is both a computer program and a secure communication protocol.
 
-(les ports disponibles sont au nombre de 65 536(2^16), 16 premiers bits en partant de droite.
+<img src="Screenshots/france.png" width="10" height="15"/> (les ports disponibles sont au nombre de 65 536(2^16), 16 premiers bits en partant de droite.
 Les ports utilisés par défaut par le systeme sont de 0 a 1023, 22 étant le port par defaut du service SSH).<br/>
-(the available ports are 65,536(2^16), first 16 bits from right.
+<img src="Screenshots/united-states.png" width="10" height="15"/> (the available ports are 65,536(2^16), first 16 bits from right.
 The default ports used by the system are from 0 to 1023, 22 being the default port for the SSH service).
 
-* Ouvrir le fichier - Open this file : /etc/network/sshd_config -> `sudo vim /etc/ssh/sshd_config`
-* Changer le port par défaut SSH (port 22) - Change the default SSH port (port 22) :
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier - <img src="Screenshots/united-states.png" width="10" height="15"/> Open this file : /etc/network/sshd_config -> `sudo vim /etc/ssh/sshd_config`
+* <img src="Screenshots/france.png" width="10" height="15"/> Changer le port par défaut SSH (port 22) - <img src="Screenshots/united-states.png" width="10" height="15"/> Change the default SSH port (port 22) :
 ```````````````````````````
 port 1992
 ```````````````````````````
-* Interdire l'utilisateur root de se connecter en SSH - Prohibit the root user from logging in SSH :
+* <img src="Screenshots/france.png" width="10" height="15"/> Interdire l'utilisateur root de se connecter en SSH - <img src="Screenshots/united-states.png" width="10" height="15"/> Prohibit the root user from logging in SSH :
 ```````````````````````````
 PermitRootLogin no
 ```````````````````````````
 
-[Accès SSH avec une publickey - SSH access with a publickey]
-(A effectuer sur la machine locale - To be done on the local machine)
-* Génerer une paire de clés SSH - Generate SSH key pair -> `ssh-keygen`
-* Copier la cle sur le serveur pour l'autoriation - Copy the key to the server for authorization -> `ssh-copy-id moalgato@10.11.35.63 -p 1992`
-* Entrer le mot de passe - Enter the password
+[<img src="Screenshots/france.png" width="10" height="15"/> Accès SSH avec une publickey - <img src="Screenshots/united-states.png" width="10" height="15"/> SSH access with a publickey]
+(<img src="Screenshots/france.png" width="10" height="15"/> A effectuer sur la machine locale - <img src="Screenshots/united-states.png" width="10" height="15"/> To be done on the local machine)
+* <img src="Screenshots/france.png" width="10" height="15"/> Génerer une paire de clés SSH - <img src="Screenshots/united-states.png" width="10" height="15"/> Generate SSH key pair -> `ssh-keygen`
+* <img src="Screenshots/france.png" width="10" height="15"/> Copier la cle sur le serveur pour l'autoriation - <img src="Screenshots/united-states.png" width="10" height="15"/> Copy the key to the server for authorization -> `ssh-copy-id moalgato@10.11.35.63 -p 1992`
+* <img src="Screenshots/france.png" width="10" height="15"/> Entrer le mot de passe - <img src="Screenshots/united-states.png" width="10" height="15"/> Enter the password
 
-* Ouvrir le fichier sshd_config - Open the sshd_config file -> `sudo vim /etc/ssh/sshd_config`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier sshd_config - <img src="Screenshots/united-states.png" width="10" height="15"/> Open the sshd_config file -> `sudo vim /etc/ssh/sshd_config`
 * PasswordAuthentication yes ->
 ``````````````````````````
 PasswordAuthentication no
 ``````````````````````````
-(aprés établissement de la connexion afin d'empecher toutes nouvelles connexions)<br/>
-(after the connection has been established in order to prevent any new connections)<br/>
+(<img src="Screenshots/france.png" width="10" height="15"/> aprés établissement de la connexion afin d'empecher toutes nouvelles connexions)<br/>
+(<img src="Screenshots/united-states.png" width="10" height="15"/> after the connection has been established in order to prevent any new connections)<br/>
 * PubkeyAuthentication yes ->
 ``````````````````````````
 PubkeyAuthentication yes
@@ -136,18 +136,18 @@ PubkeyAuthentication yes
 
 <br/>
 
-* Redemarrer le service ssh - Restart the ssh service -> `sudo service ssh restart`
+* <img src="Screenshots/france.png" width="10" height="15"/> Redemarrer le service ssh - <img src="Screenshots/united-states.png" width="10" height="15"/> Restart the ssh service -> `sudo service ssh restart`
 <br/><br/><br/><br/><br/>
 
-### 3) Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM<br/><br/>Set up firewall rules on the server with only used services accessible outside the VM
+### 3) <img src="Screenshots/france.png" width="10" height="15"/> Mettre en place des règles de pare-feu (firewall) sur le serveur avec uniquement les services utilisés accessible en dehors de la VM<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Set up firewall rules on the server with only used services accessible outside the VM
 
 
-* Installer iptables-persistent - Install iptables-persistent<br/>
-(version qui permet de rendre les modifications persistante)<br>
-(version that allows you to make changes persistent) ->	`sudo apt-get install iptables-persistent`
+* <img src="Screenshots/france.png" width="10" height="15"/> Installer iptables-persistent - <img src="Screenshots/united-states.png" width="10" height="15"/> Install iptables-persistent<br/>
+(<img src="Screenshots/france.png" width="10" height="15"/> version qui permet de rendre les modifications persistante)<br>
+(<img src="Screenshots/united-states.png" width="10" height="15"/> version that allows you to make changes persistent) ->	`sudo apt-get install iptables-persistent`
 
-* Ouvrir le fichier - Open this file : /etc/iptables/rules.v4 -> `sudo vim /etc/iptables/rules.v4` <br/>
-et configurer le firewall en y ajoutant les lignes suivantes - and configure the firewall by adding the following lines :
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier - <img src="Screenshots/united-states.png" width="10" height="15"/> Open this file : /etc/iptables/rules.v4 -> `sudo vim /etc/iptables/rules.v4` <br/>
+<img src="Screenshots/france.png" width="10" height="15"/> et configurer le firewall en y ajoutant les lignes suivantes - <img src="Screenshots/united-states.png" width="10" height="15"/> and configure the firewall by adding the following lines :
 
 ```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 *filter
@@ -208,26 +208,26 @@ COMMIT
 
 <br/>
 
-* Redémmarer le service - Restart the service -> `sudo service netfilter-persistent restart`
+* <img src="Screenshots/france.png" width="10" height="15"/> Redémmarer le service - <img src="Screenshots/united-states.png" width="10" height="15"/> Restart the service -> `sudo service netfilter-persistent restart`
 
-* Vérifier le chargement des modifications - Check the loading of changes -> `sudo iptables -L`
+* <img src="Screenshots/france.png" width="10" height="15"/> Vérifier le chargement des modifications - <img src="Screenshots/united-states.png" width="10" height="15"/> Check the loading of changes -> `sudo iptables -L`
 
 <br/><br/><br/><br/><br/>
 
-### 4) Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM<br/><br/>Implement DOS (Denial Of ServiceAttack) protection on open ports of the VM
+### 4) <img src="Screenshots/france.png" width="10" height="15"/> Mettre en place une protection contre les DOS (Denial Of ServiceAttack) sur les ports ouverts de la VM<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Implement DOS (Denial Of ServiceAttack) protection on open ports of the VM
 
 
 [Fail2ban] :<br/>
-Fail2ban est un framework de prévention contre les intrusions, Fail2ban bloque les adresses IP appartenant à des hôtes qui tentent de casser la sécurité du système, pendant une période configurable (mise en quarantaine).<br/>
-Fail2ban is an intrusion prevention framework, Fail2ban blocks IP addresses belonging to hosts that attempt to breach system security, for a configurable period of time (quarantine).
+<img src="Screenshots/france.png" width="10" height="15"/> Fail2ban est un framework de prévention contre les intrusions, Fail2ban bloque les adresses IP appartenant à des hôtes qui tentent de casser la sécurité du système, pendant une période configurable (mise en quarantaine).<br/>
+<img src="Screenshots/united-states.png" width="10" height="15"/> Fail2ban is an intrusion prevention framework, Fail2ban blocks IP addresses belonging to hosts that attempt to breach system security, for a configurable period of time (quarantine).
 
-* Installer fail2ban - Install fail2ban -> `sudo apt-get install fail2ban`
+* <img src="Screenshots/france.png" width="10" height="15"/> Installer fail2ban - <img src="Screenshots/united-states.png" width="10" height="15"/> Install fail2ban -> `sudo apt-get install fail2ban`
 
-* Copier le fichier jail.conf - Copy the jail.conf file -> `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`<br/>
-(le fichier jail.conf sera modifier à chaque mis à jour, donc pour un fichier fixe, en créer un autre (jail.local)).<br/>
-(the jail.conf file will be modified at each update, so for a fixed file, create another one (jail.local)).
+* <img src="Screenshots/france.png" width="10" height="15"/> Copier le fichier jail.conf - <img src="Screenshots/united-states.png" width="10" height="15"/> Copy the jail.conf file -> `sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`<br/>
+(<img src="Screenshots/france.png" width="10" height="15"/> le fichier jail.conf sera modifier à chaque mis à jour, donc pour un fichier fixe, en créer un autre (jail.local)).<br/>
+(<img src="Screenshots/united-states.png" width="10" height="15"/> the jail.conf file will be modified at each update, so for a fixed file, create another one (jail.local)).
 
-* Ouvrir le fichier - Open this file : `sudo vim /etc/fail2ban/jail.local` et y ajouter/modifier ces lignes - and add/modify these lines :
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier - <img src="Screenshots/united-states.png" width="10" height="15"/> Open this file : `sudo vim /etc/fail2ban/jail.local` et y ajouter/modifier ces lignes - and add/modify these lines :
 ```````````````````````````````````````````````````````````````````````````````````````````````
 bantime  = 10m
 findtime  = 10m
@@ -260,30 +260,30 @@ logpath  = %(apache_error_log)s
 
 <br/>
 
-* Redémmarer le service - Restart the service -> `sudo service fail2ban restart`
+* <img src="Screenshots/france.png" width="10" height="15"/> Redémmarer le service - <img src="Screenshots/united-states.png" width="10" height="15"/> Restart the service -> `sudo service fail2ban restart`
 <br/><br/><br/><br/><br/>
 
-### 5) Mettre en place une protection contre les scans sur les ports ouverts de la VM<br/><br/>Set up scan protection on open ports of the VM
+### 5) <img src="Screenshots/france.png" width="10" height="15"/> Mettre en place une protection contre les scans sur les ports ouverts de la VM<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Set up scan protection on open ports of the VM
 
 
 [Scan]:<br/>
-Permet de trouver dans un délai très court, tous les ports ouverts sur une machine distante.<br/>
-Allows you to find all open ports on a remote machine in a very short period of time.
+<img src="Screenshots/france.png" width="10" height="15"/> Permet de trouver dans un délai très court, tous les ports ouverts sur une machine distante.<br/>
+<img src="Screenshots/united-states.png" width="10" height="15"/> Allows you to find all open ports on a remote machine in a very short period of time.
 
 [PSAD : Port Scan Attack Detector]
 
-* Installer PSAD - Install PSAD -> `sudo apt-get install psad`
+* <img src="Screenshots/france.png" width="10" height="15"/> Installer PSAD - <img src="Screenshots/united-states.png" width="10" height="15"/> Install PSAD -> `sudo apt-get install psad`
 
-* Ajouter au fichier IPtables ces deux lignes - Add these two lines to the IPtables file : `sudo vim /etc/iptables/rules.v4` :
+* <img src="Screenshots/france.png" width="10" height="15"/> Ajouter au fichier IPtables ces deux lignes - <img src="Screenshots/united-states.png" width="10" height="15"/> Add these two lines to the IPtables file : `sudo vim /etc/iptables/rules.v4` :
 ````````````````````````
 -A INPUT -j LOG
 -A FORWARD -j LOG
 ````````````````````````
-(Active la journalisation sur les chaînes d'entrée et de transfert d'IPtables afin que le démon PSAD puisse détecter toute activité anormale.)<br/>(Enables logging on IPtables input and transfer strings so that the PSAD daemon can detect any abnormal activity).
+(<img src="Screenshots/france.png" width="10" height="15"/> Active la journalisation sur les chaînes d'entrée et de transfert d'IPtables afin que le démon PSAD puisse détecter toute activité anormale.)<br/>(<img src="Screenshots/united-states.png" width="10" height="15"/> Enables logging on IPtables input and transfer strings so that the PSAD daemon can detect any abnormal activity).
 
-* Ouvrir le fichier de configuration - Open the configuration file /etc/psad/psad.conf -> `sudo vim /etc/psad/psad.conf`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier de configuration - <img src="Screenshots/united-states.png" width="10" height="15"/> Open the configuration file /etc/psad/psad.conf -> `sudo vim /etc/psad/psad.conf`
 
-* Modifier les lignes suivantes - Modify the following lines :
+* <img src="Screenshots/france.png" width="10" height="15"/> Modifier les lignes suivantes - <img src="Screenshots/united-states.png" width="10" height="15"/> Modify the following lines :
 ````````````````````````
 EMAIL_ADDRESSES		root@localhost;
 HOSTNAME		localhost;
@@ -291,7 +291,7 @@ HOSTNAME		localhost;
 ![linux - linux](/Screenshots/psad_1.png)
 ***
 
-* Modifier ceci pour pointer vers le fichier syslog, où psad aura réellement la possibilité de parcourir les journaux actifs - Modify this to point to the syslog file, where psad will actually be able to browse the active logs :
+* <img src="Screenshots/france.png" width="10" height="15"/> Modifier ceci pour pointer vers le fichier syslog, où psad aura réellement la possibilité de parcourir les journaux actifs - <img src="Screenshots/united-states.png" width="10" height="15"/> Modify this to point to the syslog file, where psad will actually be able to browse the active logs :
 ````````````````````````
 ENABLE_SYSLOG_FILE	Y;
 IPT_WRITE_FWDATA	Y;
@@ -300,7 +300,7 @@ IPT_SYSLOG_FILE		/var/log/syslog;
 ![linux - linux](/Screenshots/psad_2.png)
 ***
 
-* Activer les paramètres suivants pour activer la fonction IPS et le niveau de danger. Après avoir activé le paramètre dans le fichier de configuration, le démon PSAD bloquera automatiquement l'attaquant en ajoutant son adresse IP dans les chaînes IPtables<br/><br/>Activate the following parameters to activate the IPS function and the danger level. After enabling the parameter in the configuration file, the PSAD daemon will automatically block the attacker by adding his IP address in the IPtable strings :
+* <img src="Screenshots/france.png" width="10" height="15"/> Activer les paramètres suivants pour activer la fonction IPS et le niveau de danger. Après avoir activé le paramètre dans le fichier de configuration, le démon PSAD bloquera automatiquement l'attaquant en ajoutant son adresse IP dans les chaînes IPtables<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Activate the following parameters to activate the IPS function and the danger level. After enabling the parameter in the configuration file, the PSAD daemon will automatically block the attacker by adding his IP address in the IPtable strings :
 ````````````````````````
 ENABLE_AUTO_IDS		Y;
 AUTO_IDS_DANGER_LEVEL	1;
@@ -310,48 +310,48 @@ AUTO_IDS_DANGER_LEVEL	1;
 
 <br/>
 
-* Exécuter maintenant la commande suivante pour mettre à jour la base de données de signatures pour la détection des attaques - Now run the following command to update the signature database for attack detection -> `psad --sig-update`
+* <img src="Screenshots/france.png" width="10" height="15"/> Exécuter maintenant la commande suivante pour mettre à jour la base de données de signatures pour la détection des attaques - <img src="Screenshots/united-states.png" width="10" height="15"/> Now run the following command to update the signature database for attack detection -> `psad --sig-update`
 
-* Redemarrer le service - Restart the service -> `sudo psad -R` (restart)
+* <img src="Screenshots/france.png" width="10" height="15"/> Redemarrer le service - <img src="Screenshots/united-states.png" width="10" height="15"/> Restart the service -> `sudo psad -R` (restart)
 
-* Afficher l'etat de tous les proccessus en cours - Show status of all running processes -> `sudo psad -S` (status)
+* <img src="Screenshots/france.png" width="10" height="15"/> Afficher l'etat de tous les proccessus en cours - <img src="Screenshots/united-states.png" width="10" height="15"/> Show status of all running processes -> `sudo psad -S` (status)
 <br/><br/><br/><br/><br/>
 
-### 6) Arretez les services non nécessaire pour ce projet<br/><br/>Stop services not required for this project.
+### 6) <img src="Screenshots/france.png" width="10" height="15"/> Arretez les services non nécessaire pour ce projet<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Stop services not required for this project.
 
 
-* Lister les services disponibles et répertorier l'état des services contrôlés par le systeme - List available services and list the status of services controlled by the system -> `sudo systemctl list-units --type=service --state=active`
+* <img src="Screenshots/france.png" width="10" height="15"/> Lister les services disponibles et répertorier l'état des services contrôlés par le systeme - <img src="Screenshots/united-states.png" width="10" height="15"/> List available services and list the status of services controlled by the system -> `sudo systemctl list-units --type=service --state=active`
 
 ![linux - linux](/Screenshots/systemctl.png)
 ***
 
 <br/>
 
-* Stopper un service - Stop a service -> `sudo systemctl disable $nameofservice`
+* <img src="Screenshots/france.png" width="10" height="15"/> Stopper un service - <img src="Screenshots/united-states.png" width="10" height="15"/> Stop a service -> `sudo systemctl disable $nameofservice`
 
-Désactiver les services estimé non necéssaires - Disable services deemed unnecessary :
+* <img src="Screenshots/france.png" width="10" height="15"/> Désactiver les services estimé non necéssaires - <img src="Screenshots/united-states.png" width="10" height="15"/> Disable services deemed unnecessary :
 
-* Services désactivés - Disabled services:
+* <img src="Screenshots/france.png" width="10" height="15"/> Services désactivés - <img src="Screenshots/united-states.png" width="10" height="15"/> Disabled services:
 
-	* console-setup.service : Ce paquet fournit à la console le même modèle de configuration du clavier que celui du système X Window - This package provides the console with the same model keyboard configuration than the X Window System keyboard configuration.
+	* console-setup.service : <img src="Screenshots/france.png" width="10" height="15"/> Ce paquet fournit à la console le même modèle de configuration du clavier que celui du système X Window - <img src="Screenshots/united-states.png" width="10" height="15"/> This package provides the console with the same model keyboard configuration than the X Window System keyboard configuration.
 
-	* keyboard-setup.service : configuration du clavier - keyboard layout.
+	* keyboard-setup.service : <img src="Screenshots/france.png" width="10" height="15"/> configuration du clavier - <img src="Screenshots/united-states.png" width="10" height="15"/> keyboard layout.
 
-	* exim4 : Mail Transfert Agent (postfix est utilisé à la place) - Mail Transfert Agent (postfix is used instead).
+	* exim4 : <img src="Screenshots/france.png" width="10" height="15"/> Mail Transfert Agent (postfix est utilisé à la place) - <img src="Screenshots/united-states.png" width="10" height="15"/> Mail Transfert Agent (postfix is used instead).
 <br/><br/><br/><br/><br/>
 
-### 7) Réalisez un script qui met à jour l’ensemble des sources de package, puis de vos packages et qui log l’ensemble dans un fichier nommé /var/log/update_script.log. Créez une tache planifiée pour ce script une fois par semaine à 4h00 du matin età chaque reboot de la machine<br/><br/>Make a script that updates all the package sources, then your packages, and log all of them in a file named /var/log/update_script.log. Create a scheduled task for this script once a week at 4:00 am and at each reboot of the machine.
+### 7) <img src="Screenshots/france.png" width="10" height="15"/> Réalisez un script qui met à jour l’ensemble des sources de package, puis de vos packages et qui log l’ensemble dans un fichier nommé /var/log/update_script.log. Créez une tache planifiée pour ce script une fois par semaine à 4h00 du matin età chaque reboot de la machine<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Make a script that updates all the package sources, then your packages, and log all of them in a file named /var/log/update_script.log. Create a scheduled task for this script once a week at 4:00 am and at each reboot of the machine.
 
 
 [Cron] :<br/>
-Cron est un programme qui permet aux utilisateurs des systèmes Unix d’exécuter automatiquement des scripts, des commandes ou des logiciels à une date et une heure spécifiée à l’avance.<br/><br/>
+<img src="Screenshots/france.png" width="10" height="15"/> Cron est un programme qui permet aux utilisateurs des systèmes Unix d’exécuter automatiquement des scripts, des commandes ou des logiciels à une date et une heure spécifiée à l’avance.<br/><br/>
 
-Cron is a program that allows users of Unix systems to automatically execute scripts, commands or software at a pre-specified date and time.
+<img src="Screenshots/united-states.png" width="10" height="15"/> Cron is a program that allows users of Unix systems to automatically execute scripts, commands or software at a pre-specified date and time.
 
-* Créer le fichier - Create the file : /var/log/update_script.log -> `sudo touch /var/log/update_script.log`
-* Créer un fichier dans - Create a file in : /etc/cron.d -> `sudo touch /etc/cron.d/update_packages`
-* Donner les droits d'execution au root - Give execution rights to the root : -> `sudo chmod 744 /etc/cron.d/update_packages`
-* Ouvrir le fichier avec vim - Open the file with vim -> `sudo vim /etc/cron.d/update_packages` puis ecrire ce script - then write this script :
+* <img src="Screenshots/france.png" width="10" height="15"/> Créer le fichier - <img src="Screenshots/united-states.png" width="10" height="15"/> Create the file : /var/log/update_script.log -> `sudo touch /var/log/update_script.log`
+* <img src="Screenshots/france.png" width="10" height="15"/> Créer un fichier dans - <img src="Screenshots/united-states.png" width="10" height="15"/> Create a file in : /etc/cron.d -> `sudo touch /etc/cron.d/update_packages`
+* <img src="Screenshots/france.png" width="10" height="15"/> Donner les droits d'execution au root - <img src="Screenshots/united-states.png" width="10" height="15"/> Give execution rights to the root : -> `sudo chmod 744 /etc/cron.d/update_packages`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier avec vim - <img src="Screenshots/united-states.png" width="10" height="15"/> Open the file with vim -> `sudo vim /etc/cron.d/update_packages` puis ecrire ce script - then write this script :
 
 ``````````````````````````````
 #!/bin/bash
@@ -361,9 +361,9 @@ apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.
 ![linux - linux](/Screenshots/cron_script_1.png)
 ***
 
-* Ouvrir le fichier crontab - Open the crontab file ->	`sudo crontab -e`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier crontab - <img src="Screenshots/united-states.png" width="10" height="15"/> Open the crontab file ->	`sudo crontab -e`
 
-* Y ajouter les lignes suivantes - Add the following lines :
+* <img src="Screenshots/france.png" width="10" height="15"/> Y ajouter les lignes suivantes - <img src="Screenshots/united-states.png" width="10" height="15"/> Add the following lines :
 ``````````````````````````````
 0 4 * * 5 /etc/cron.d/update_packages
 @reboot /etc/cron.d/update_packages
@@ -373,13 +373,13 @@ apt-get update && ((date && apt-get -y upgrade; echo) >> /var/log/update_script.
 
 <br/><br/><br/><br/><br/>
 
-### 8) Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit<br/><br/>Run a script that monitors changes to /etc/crontab and sends a mail to root if it has been modified. Create a scheduled script task every day at midnight.
+### 8) <img src="Screenshots/france.png" width="10" height="15"/> Réalisez un script qui permet de surveiller les modifications du fichier /etc/crontab et envoie un mail à root si celui-ci a été modifié. Créez une tache plannifiée pour script tous les jours à minuit<br/><br/><img src="Screenshots/united-states.png" width="10" height="15"/> Run a script that monitors changes to /etc/crontab and sends a mail to root if it has been modified. Create a scheduled script task every day at midnight.
 
 
-* Créer un fichier dans - Create a file in : /etc/cron.d dans lequel on stocke ce que renvoie la commande md5sum - in which we store what the md5sum command returns -> `sudo /etc/cron.d/touch cron_old_hash`
-* Créer un fichier dans - Create a file in : /etc/cron.d dans lequel on ecrira le script - in which we'll write the script -> `sudo touch /etc/cron.d/cron_file_control`
-* Donner les droits d'execution au root - Give execution rights to the root -> `chmod 744 /etc/cron.d/cron_file_control`
-* Ouvrir le fichier avec vim - Open the file with vim -> `sudo vim /etc/cron.d/cron_file_control` puis ecrire ce script - then write this script :
+* <img src="Screenshots/france.png" width="10" height="15"/> Créer un fichier dans - <img src="Screenshots/united-states.png" width="10" height="15"/> Create a file in : /etc/cron.d dans lequel on stocke ce que renvoie la commande md5sum - in which we store what the md5sum command returns -> `sudo /etc/cron.d/touch cron_old_hash`
+* <img src="Screenshots/france.png" width="10" height="15"/> Créer un fichier dans - <img src="Screenshots/united-states.png" width="10" height="15"/> Create a file in : /etc/cron.d dans lequel on ecrira le script - in which we'll write the script -> `sudo touch /etc/cron.d/cron_file_control`
+* <img src="Screenshots/france.png" width="10" height="15"/> Donner les droits d'execution au root - <img src="Screenshots/united-states.png" width="10" height="15"/> Give execution rights to the root -> `chmod 744 /etc/cron.d/cron_file_control`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier avec vim - <img src="Screenshots/united-states.png" width="10" height="15"/> Open the file with vim -> `sudo vim /etc/cron.d/cron_file_control` puis ecrire ce script - then write this script :
 
 ``````````````````````````````
 #!/bin/bash
@@ -396,9 +396,9 @@ fi
 ![linux - linux](/Screenshots/cron_script_2.png)
 ***
 
-* Ouvrir le fichier crontab - Open the crontab file ->	`sudo crontab -e`
+* <img src="Screenshots/france.png" width="10" height="15"/> Ouvrir le fichier crontab - <img src="Screenshots/united-states.png" width="10" height="15"/> Open the crontab file ->	`sudo crontab -e`
 
-* Y ajouter la ligne suivante - Add the following lines :
+* <img src="Screenshots/france.png" width="10" height="15"/> Y ajouter la ligne suivante - <img src="Screenshots/united-states.png" width="10" height="15"/> Add the following lines :
 ``````````````````````````````
 0 0 * * * /etc/cron.d/cron_file_control
 ``````````````````````````````
